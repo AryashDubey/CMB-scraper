@@ -28,7 +28,7 @@ async function searchProduct(query) {
   const browser = await puppeteer.launch({
     headless: true,
 
-    args: [`--proxy-server=${randomProxy}`, "--no-sandbox"],
+    args: ["--no-sandbox"],
   });
 
   const [page] = await browser.pages();
@@ -48,11 +48,13 @@ async function searchProduct(query) {
       `https://www.homedepot.com/s/${encodeURIComponent(query)}`,
       {
         waitUntil: "networkidle0",
-        timeout: 60000,
+        timeout: 120000,
       }
     );
 
-    await page.waitForSelector('[data-testid="product-pod"]');
+    await page.waitForSelector('[data-testid="product-pod"]', {
+      timeout: 120000,
+    });
 
     // Extract product information
     const products = await page.evaluate(() => {
