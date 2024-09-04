@@ -27,7 +27,14 @@ async function searchProduct(query) {
 
   const browser = await puppeteer.launch({
     headless: true,
-    args: [`--proxy-server=${randomProxy}`],
+
+    args: [`--proxy-server=${randomProxy}`,
+        '--no-sandbox',
+        '--disable-setuid-sandbox',
+        '--disable-dev-shm-usage',
+        '--disable-accelerated-2d-canvas',
+        '--disable-gpu',
+    ],
   });
 
   const [page] = await browser.pages();
